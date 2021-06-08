@@ -12,13 +12,15 @@ from django.shortcuts import (
     redirect
 )
 
+from django.views.generic import ListView, DetailView
+
 from .forms import (
     RegistrationForm,
     UserAuthenticationForm,
     UserUpdatePassword,
 )
 
-from .models import CalendarApp
+from .models import *
 
 
 def main_page(request):
@@ -110,16 +112,31 @@ def change_password_view(request):
             messages.success(request, "Профиль обновлён")
         else:
             messages.error(request, "Пожалуйста, исправьте ошибки ниже")
-            context['setpassword_form'] = form
+            context['change_password_form'] = form
     else:
         form = PasswordChangeForm(user=request.user)
-        context['setpassword_form'] = form
+        context['change_password_form'] = form
 
     return render(request, "profile/change_password.html", context)
+
+
+class DoingsListView(ListView):
+    model = Doing
+    template_name = 'calendar/detail.html'
+    context_object_name = 'doings'
+
+    def get_queryset(self):
+        return Doing.objects.filter(calendar_app=CalendarApp())
 
 
 def calendar_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    context = {}
+    doings = Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0])
+
+    context = {
+        'doings': doings
+    }
+
+    return render(request, "calendar/detail.html", context)

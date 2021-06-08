@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../static/calendar/detail.css" type="text/css">
 {% endblock %}
 
+{% load static %}
+
 {% block additional-pre-content %}
        <div class="between">
            <p class="datetime">17-01-2021</p>
@@ -19,10 +21,10 @@
 
 {% block else-block %}
     <section class="calendar-section">
-        <p class="calendar__item">Деятельность 1</p>
-        <p class="calendar__item">Вид деятельности 1</p>
-        <p class="calendar__item">Деятельность 2</p>
-        <p class="calendar__item">Вид деятельности 2</p>
+        {% for d in doings %}
+            <div class="calendar__item">{{ d.name }}</div>
+            <div class="calendar__item">{{ d.doing_type }}</div>
+        {% endfor %}
     </section>
 {% endblock %}
 

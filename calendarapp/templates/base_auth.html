@@ -2,7 +2,7 @@
 
 {% block header %}
     <a href="{% url 'profile' %}" class="header__item">Профиль</a>
-    <a href="" class="header__item">Календарь</a>
+    <a href="{% url 'calendar' %}" class="header__item">Календарь</a>
     <a href="{% url 'logout' %}" class="header__item">Выход</a>
 {% endblock %}
 
