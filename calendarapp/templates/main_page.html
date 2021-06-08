@@ -1,0 +1,23 @@
+{% extends 'base_non_auth.html' %}
+{% load static %}
+
+{% block title %} Главная страница {% endblock %}
+
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../static/main_page.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <section class="section">
+        <div class="section__hello-message">
+            <p class="hello-message__item">Добро пожаловать в</p>
+            <h3 class="hello-message__item">Журнал деятельности!</h3>
+            <p class="hello-message__item">Чтобы начать пользоваться системой, необходимо авторизоваться на сайте.</p>
+            <p class="hello-message__item">Если у вас ещё нет профиля в стистеме, необходимо зарегистрироваться!</p>
+        </div>
+        <div class="section__links">
+            <a href="{% url 'login' %}" class="links__item">Авторизация</a>
+            <a href="{% url 'registration' %}" class="links__item">Регистрация</a>
+        </div>
+    </section>
+{% endblock %}

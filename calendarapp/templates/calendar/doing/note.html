@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заметка для Деятельности</title>
+
+    <link rel="stylesheet" href="../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../static/note.css" type="text/css">
+
+</head>
+
+{% load static %}
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <a href="profile" class="header__item">Профиль</a>
+            <a href="calendar" class="header__item">Календарь</a>
+            <button type="button" class="header__item">Выход</button>
+        </header>
+        <div class="between">
+            <p class="between__name">Заметка</p>
+            <button type="button" class="btn-back">Назад</button>
+        </div>
+        <div class="wrapper">
+            <section class="note-section">
+                <textarea class="note__body">Текст заметки</textarea>
+            </section>
+        </div>
+        <section class="btns-section">
+            <button type="button" class="section__add-photo">add photo</button>
+        </section>
+    </div>
+</body>
+</html>

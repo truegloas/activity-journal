@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <a href="{% url 'main_page' %}" class="header__item">Главная</a>
+    <a href="{% url 'login' %}" class="header__item">Авторизация</a>
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h3 class="back-message">Вернитесь к своему профилю!</h3>
+        <a class="back-link" href="{% url 'profile' %}">Профиль</a>
+    {% else %}
+        {% block else-block %}
+        {% endblock %}
+    {% endif %}
+{% endblock %}

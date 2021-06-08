@@ -1,0 +1,34 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+
+{% block title %}
+    Календарь
+{% endblock %}
+
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../static/calendar/detail.css" type="text/css">
+{% endblock %}
+
+{% block additional-pre-content %}
+       <div class="between">
+           <p class="datetime">17-01-2021</p>
+           <button type="button" class="btn-back">Назад</button>
+       </div>
+{% endblock %}
+
+{% block else-block %}
+    <section class="calendar-section">
+        <p class="calendar__item">Деятельность 1</p>
+        <p class="calendar__item">Вид деятельности 1</p>
+        <p class="calendar__item">Деятельность 2</p>
+        <p class="calendar__item">Вид деятельности 2</p>
+    </section>
+{% endblock %}
+
+{% block additional-content %}
+    <section class="btns-section">
+        <button class="section__plus">+</button>
+        <button class="section__trash">delete</button>
+    </section>
+{% endblock %}

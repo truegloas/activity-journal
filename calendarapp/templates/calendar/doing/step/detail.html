@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+
+    <link rel="stylesheet" href="../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../static/calendar/doing/step/detail.css" type="text/css">
+
+</head>
+
+{% load static %}
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <a href="profile" class="header__item">Профиль</a>
+            <a href="calendar" class="header__item">Календарь</a>
+            <button type="button" class="header__item">Выход</button>
+        </header>
+        <div class="between">
+            <p class="between__name">Шаг 1</p>
+            <button type="button" class="btn-back">Назад</button>
+        </div>
+        <div class="wrapper">
+            <section class="step-section">
+                <p class="step__item">dd / dd</p>
+                <p class="step__item">Тип нагрузки 1</p>
+            </section>
+        </div>
+        <section class="btns-section">
+            <a href="note.html" class="section__note">note</a>
+        </section>
+    </div>
+</body>
+</html>

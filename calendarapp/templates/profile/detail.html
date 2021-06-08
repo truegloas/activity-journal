@@ -1,0 +1,22 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../static/profile/detail.css" type="text/css">
+{% endblock %}
+
+{% block title %}
+    Профиль
+{% endblock %}
+
+{% block else-block %}
+    <section class="section">
+        <p class="profile__item">E-mail</p>
+        <p class="profile__item">{{ request.user.email }}</p>
+        <p class="profile__item">Пароль</p>
+        <a href="{% url 'change_password' %}" class="profile__item">Изменить пароль</a>
+        {% if request.user.is_admin %}
+            <a href="" class="profile__item profile__item--admin-link">Панель администрирования</a>
+        {% endif %}
+    </section>
+{% endblock %}

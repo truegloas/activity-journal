@@ -1,0 +1,36 @@
+{% extends 'base_non_auth.html' %}
+{% load static %}
+
+{% block title %} Авторизация {% endblock %}
+
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../static/registration.css" type="text/css">
+    <link rel="stylesheet" href="../static/login.css" type="text/css">
+{% endblock %}
+
+{% block header %}
+    <a href="{% url 'main_page' %}" class="header__item">Главная</a>
+    <a href="{% url 'registration' %}" class="header__item">Регистрация</a>
+{% endblock %}
+
+{% block else-block %}
+        <form id="login_form" method="post" action="{% url 'login' %}" class="form-section__form">
+            {% csrf_token %}
+            <section class="form-section">
+                <h3 class="form-section__header">Авторизация</h3>
+                    <div class="form-section__item">
+                        <label for="id_email">Введите E-mail</label>
+                        <input type="text" name="email" class="form-control" required id="id_email">
+                    </div>
+                    <div class="form-section__item">
+                        <label for="id_password">Введите пароль</label>
+                        <input type="password" name="password" class="form-control" required id="id_password">
+                    </div>
+            </section>
+            <section class="btn-section">
+                <div class="btn-section__wrapper">
+                    <button type="submit" class="btn-section__btn">Ввести</button>
+                </div>
+            </section>
+        </form>
+{% endblock %}

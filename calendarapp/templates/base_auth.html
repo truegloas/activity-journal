@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <a href="{% url 'profile' %}" class="header__item">Профиль</a>
+    <a href="" class="header__item">Календарь</a>
+    <a href="{% url 'logout' %}" class="header__item">Выход</a>
+{% endblock %}
+
+{% block content %}
+    {% if not request.user.is_authenticated %}
+        <h3 class="back-message">Вам необходимо авторизоваться!</h3>
+        <a class="back-link" href="{% url 'login' %}">Авторизация</a>
+    {% else %}
+        {% block else-block %}
+        {% endblock %}
+    {% endif %}
+{% endblock %}

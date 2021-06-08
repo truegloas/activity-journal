@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Шаги</title>
+
+    <link rel="stylesheet" href="../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../static/calendar/doing/detail.css" type="text/css">
+
+</head>
+
+{% load static %}
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <a href="profile" class="header__item">Профиль</a>
+            <a href="calendar" class="header__item">Календарь</a>
+            <button type="button" class="header__item">Выход</button>
+        </header>
+        <div class="between">
+           <p class="between__name">Деятельность 1</p>
+           <p class="datetime">17-01-2021</p>
+           <button type="button" class="btn-back">Назад</button>
+       </div>
+        <div class="wrapper">
+            <section class="doing-section">
+                <p class="doing__item">Шаг 1</p>
+                <p class="doing__item">hh:mm</p>
+                <p class="doing__item">hh:mm</p>
+                <p class="doing__item">Шаг 2</p>
+                <p class="doing__item">hh:mm</p>
+                <p class="doing__item">hh:mm</p>
+            </section>
+        </div>
+        <section class="btns-section">
+            <button class="section__plus">+</button>
+            <a href="note.html" class="section__note">note</a>
+            <button class="section__trash">delete</button>
+        </section>
+    </div>
+</body>
+</html>

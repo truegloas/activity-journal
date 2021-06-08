@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Главная страница
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="../static/style.css" type="text/css">
+    {% block stylesheet-link %}
+    {% endblock %}
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            {% block header %}
+            {% endblock %}
+        </header>
+        {% block additional-pre-content %}
+        {% endblock %}
+        <div class="wrapper">
+            <div class="messages">
+                {% for message in messages %}
+                    <div role="alert">
+                        <button type="button" class="close-btn" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+        {% block additional-content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
