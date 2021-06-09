@@ -6,14 +6,14 @@
 {% endblock %}
 
 {% block stylesheet-link %}
-    <link rel="stylesheet" href="../../static/style.css" type="text/css">
-    <link rel="stylesheet" href="../../static/profile/detail.css" type="text/css">
-    <link rel="stylesheet" href="../../static/calendar/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../../../static/calendar/detail.css" type="text/css">
 {% endblock %}
 
 {% block additional-pre-content %}
        <div class="between">
-           <p class="datetime">17-01-2021</p>
+           <p class="datetime">{{ day }}-{{ month }}-{{ year }}</p>
            <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
        </div>
 {% endblock %}
@@ -33,7 +33,7 @@
 
 {% block additional-content %}
     <section class="btns-section">
-        <button class="section__plus" type="submit" onclick="location.href='{% url 'append_doing' %}'" name="plus-btn">+</button>
-        <button class="section__trash" type="submit" onclick="location.href='{% url 'delete_doings' %}'" name="trash-btn">delete</button>
+        <button class="section__plus" type="submit" onclick="location.href='{% url 'append_doing' year month day %}'" name="plus-btn">+</button>
+        <button class="section__trash" type="submit" onclick="location.href='{% url 'delete_doings' year month day %}'" name="trash-btn">delete</button>
     </section>
 {% endblock %}

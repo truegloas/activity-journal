@@ -83,8 +83,8 @@ class DoingType(models.Model):
 class Doing(models.Model):
     name = models.CharField(max_length=255, default='Деятельность')
 
-    start_time = models.DateField(auto_now_add=True)
-    end_time = models.DateField(blank=True, null=True)
+    start_time = models.DateField(null=True, blank=True)
+    end_time = models.DateField(null=True, blank=True)
 
     calendar_app = models.ForeignKey(CalendarApp, on_delete=models.CASCADE, null=True, blank=True)
     doing_type = models.ForeignKey(DoingType, on_delete=models.CASCADE, null=True, blank=True, auto_created=True)

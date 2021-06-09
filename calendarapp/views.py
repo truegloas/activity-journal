@@ -1,3 +1,5 @@
+from datetime import date
+from django.views.generic.dates import DayArchiveView
 from django.contrib import messages, admin
 from django.contrib.auth import (
     authenticate,
@@ -122,26 +124,53 @@ def calendar_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    doings = Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0])
+    context = {}
+
+    if request.GET:
+        get_date = date(
+            *list(
+                reversed(
+                    list(
+                        map(
+                            lambda x: int(x), request.GET['date'].split('-')
+                        )
+                    )
+                )
+            )
+        )
+        return redirect('doings_day', get_date.year, get_date.month, get_date.day)
+
+    return render(request, 'calendar/date_selector.html', context)
+
+
+def doings_list_view(request, year, month, day):
+
+    doings = Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
+                                  start_time=date(year, month, day))
 
     context = {
-        'doings': doings
+        'doings': doings,
+        'year': year,
+        'month': month,
+        'day': day
     }
 
-    return render(request, "calendar/detail.html", context)
+    return render(request, "calendar/doings_archive_day.html", context)
 
 
-def append_doing(request):
+def append_doing(request, year, month, day):
     Doing.objects.create(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
-                         doing_type=DoingType.objects.get(name='Вид деятельности'))
+                         doing_type=DoingType.objects.create(),
+                         start_time=date(year, month, day))
 
-    return redirect("calendar")
+    return redirect("doings_day", year, month, day)
 
 
-def delete_doings(request):
-    Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0]).delete()
+def delete_doings(request, year, month, day):
+    Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
+                         start_time=date(year, month, day)).delete()
 
-    return redirect("calendar")
+    return redirect("doings_day", year, month, day)
 
 
 def doing_view(request, doing_id):
@@ -149,8 +178,6 @@ def doing_view(request, doing_id):
         return redirect('login')
 
     doing = Doing.objects.get(pk=doing_id)
-
-    print(doing)
 
     context = {
         'doing': doing

@@ -1,6 +1,8 @@
 {% extends 'base_auth.html' %}
 {% load static %}
 
+{% load i18n inplace_edit %}
+
 {% block title %}
     {{ doing.name }}
 {% endblock %}
@@ -13,7 +15,7 @@
 
 {% block additional-pre-content %}
     <div class="between">
-       <p class="between__name">{{ doing.name }}</p>
+       <p class="between__name">{% inplace_edit "doing.name" %}</p>
        <p class="datetime">17-01-2021</p>
        <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
    </div>

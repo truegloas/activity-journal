@@ -1,0 +1,28 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+
+{% block title %}
+    Календарь
+{% endblock %}
+
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/calendar/date_selector.css" type="text/css">
+{% endblock %}
+
+{% block else-block %}
+    <form id="date_form" method="get" action="{% url 'calendar' %}" class="form-section__form">
+        {% csrf_token %}
+        <section class="form-section">
+            <div class="form-section__item">
+                <label for="id_date">Введите дату</label>
+                <input type="text" name="date" class="form-control" required id="id_date">
+            </div>
+        </section>
+        <section class="btn-section">
+            <div class="btn-section__wrapper">
+                <button type="submit" class="btn-section__btn">Ввести</button>
+            </div>
+        </section>
+    </form>
+{% endblock %}

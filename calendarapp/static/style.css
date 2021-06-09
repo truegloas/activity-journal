@@ -71,8 +71,11 @@ body {
 
 .wrapper {
   min-height: 62.5vh;
+  max-height: 62.5vh;
 
   text-align: center;
+
+  overflow: scroll;
 
   margin-top: 4vh;
 

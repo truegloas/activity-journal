@@ -25,10 +25,13 @@
                     <input type="password" name="password2" class="form-control" required id="id_password2">
                 </div>
         </section>
-        <section class="btn-section">
-            <div class="btn-section__wrapper">
-                <button type="submit" class="btn-section__btn">Ввести</button>
-            </div>
-        </section>
     </form>
+{% endblock %}
+
+{% block additional-content %}
+    <section class="btn-section">
+        <div class="btn-section__wrapper">
+            <button form="registration_form" type="submit" class="btn-section__btn">Ввести</button>
+        </div>
+    </section>
 {% endblock %}

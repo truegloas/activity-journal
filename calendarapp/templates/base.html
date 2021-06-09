@@ -8,12 +8,15 @@
         {% endblock %}
     </title>
 
+    <script src="//code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../static/style.css" type="text/css">
     {% block stylesheet-link %}
     {% endblock %}
 </head>
 
 {% load static %}
+{% load inplace_edit %}
+{% inplace_static %}
 
 <body>
     <div class="page-wrapper">
