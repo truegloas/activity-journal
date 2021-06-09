@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
@@ -73,7 +74,7 @@ class CalendarApp(models.Model):
 
 
 class DoingType(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='Вид деятельности')
 
     def __str__(self):
         return self.name
@@ -82,14 +83,17 @@ class DoingType(models.Model):
 class Doing(models.Model):
     name = models.CharField(max_length=255, default='Деятельность')
 
-    start_time = models.DateTimeField(auto_now_add=True)
-    end_time = models.DateTimeField()
+    start_time = models.DateField(auto_now_add=True)
+    end_time = models.DateField(blank=True, null=True)
 
     calendar_app = models.ForeignKey(CalendarApp, on_delete=models.CASCADE, null=True, blank=True)
-    doing_type = models.ForeignKey(DoingType, on_delete=models.CASCADE, null=True, blank=True)
+    doing_type = models.ForeignKey(DoingType, on_delete=models.CASCADE, null=True, blank=True, auto_created=True)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('doing', kwargs={'doing_id': self.pk})
 
 
 class LoadMeasurementType(models.Model):

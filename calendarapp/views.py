@@ -12,8 +12,6 @@ from django.shortcuts import (
     redirect
 )
 
-from django.views.generic import ListView, DetailView
-
 from .forms import (
     RegistrationForm,
     UserAuthenticationForm,
@@ -120,15 +118,6 @@ def change_password_view(request):
     return render(request, "profile/change_password.html", context)
 
 
-class DoingsListView(ListView):
-    model = Doing
-    template_name = 'calendar/detail.html'
-    context_object_name = 'doings'
-
-    def get_queryset(self):
-        return Doing.objects.filter(calendar_app=CalendarApp())
-
-
 def calendar_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
@@ -140,3 +129,31 @@ def calendar_view(request):
     }
 
     return render(request, "calendar/detail.html", context)
+
+
+def append_doing(request):
+    Doing.objects.create(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
+                         doing_type=DoingType.objects.get(name='Вид деятельности'))
+
+    return redirect("calendar")
+
+
+def delete_doings(request):
+    Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0]).delete()
+
+    return redirect("calendar")
+
+
+def doing_view(request, doing_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    doing = Doing.objects.get(pk=doing_id)
+
+    print(doing)
+
+    context = {
+        'doing': doing
+    }
+
+    return render(request, 'calendar/doing/detail.html', context)
