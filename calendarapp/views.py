@@ -21,6 +21,7 @@ from .forms import (
 )
 
 from .models import *
+from .utils import *
 
 
 def main_page(request):
@@ -159,7 +160,7 @@ def doings_list_view(request, year, month, day):
 
 
 def append_doing(request, year, month, day):
-    Doing.objects.create(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
+    Doing.objects.create(calendar_app=filter_by_owner(CalendarApp, request.user),
                          doing_type=DoingType.objects.create(),
                          start_time=date(year, month, day))
 
@@ -167,7 +168,7 @@ def append_doing(request, year, month, day):
 
 
 def delete_doings(request, year, month, day):
-    Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
+    Doing.objects.filter(calendar_app=filter_by_owner(CalendarApp, request.user),
                          start_time=date(year, month, day)).delete()
 
     return redirect("doings_day", year, month, day)
@@ -180,7 +181,27 @@ def doing_view(request, doing_id):
     doing = Doing.objects.get(pk=doing_id)
 
     context = {
-        'doing': doing
+        'doing': doing,
     }
 
     return render(request, 'calendar/doing/detail.html', context)
+
+
+def calendar_notes_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    notes = Note.objects.filter(
+        calendar_app=filter_by_owner(CalendarApp, request.user)
+    )
+
+    if len(notes.values()) == 0:
+        Note.objects.create(
+            calendar_app=filter_by_owner(CalendarApp, request.user)
+        )
+
+    context = {
+        'notes': notes,
+    }
+
+    return render(request, 'calendar/notes.html', context)

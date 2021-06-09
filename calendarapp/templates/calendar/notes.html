@@ -1,0 +1,39 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+{% load i18n inplace_edit %}
+
+{% block title %}
+    Заметка для Календаря
+{% endblock %}
+
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../static/note.css" type="text/css">
+{% endblock %}
+
+{% block additional-pre-content %}
+    <div class="between">
+        <p class="between__name">Заметка календаря</p>
+        <button type="button" class="btn-back">Назад</button>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <section class="note-section">
+        {% for note in notes %}
+            <p class="note__body">
+                {% inplace_edit "note.text" %}
+            </p>
+            <div class="note__image">
+                {{ note.image }}
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}
+
+{% block additional-content %}
+    <section class="btns-section">
+        <button type="button" class="section__add-photo">Иллюстрация</button>
+    </section>
+{% endblock %}

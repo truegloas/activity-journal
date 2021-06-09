@@ -19,10 +19,18 @@
                 <input type="text" name="date" class="form-control" required id="id_date">
             </div>
         </section>
-        <section class="btn-section">
-            <div class="btn-section__wrapper">
-                <button type="submit" class="btn-section__btn">Ввести</button>
-            </div>
-        </section>
     </form>
+{% endblock %}
+
+{% block additional-content %}
+    <section class="btn-section">
+        <div class="btn-section__wrapper">
+            <button form="date_form" type="submit" class="btn-section__btn">Ввести</button>
+        </div>
+    </section>
+    <section class="note-section">
+        <div class="note-section__wrapper">
+            <a href="{% url 'calendar_notes' %}">Заметка</a>
+        </div>
+    </section>
 {% endblock %}

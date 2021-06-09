@@ -58,8 +58,6 @@ class User(AbstractBaseUser):
 
 
 class CalendarApp(models.Model):
-    name = models.CharField(max_length=255, default='Календарь')
-
     created = models.DateTimeField(auto_now_add=True)
 
     owner = models.OneToOneField(
@@ -68,9 +66,6 @@ class CalendarApp(models.Model):
         primary_key=True,
         blank=False,
     )
-
-    def __str__(self):
-        return self.name
 
 
 class DoingType(models.Model):
@@ -110,10 +105,10 @@ class Load(models.Model):
 
 
 class RealizeStep(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default="Шаг")
 
-    start_time = models.DateTimeField(auto_now_add=True)
-    end_time = models.DateTimeField()
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
 
     doing = models.ForeignKey(Doing, on_delete=models.CASCADE, null=True)
     load = models.ForeignKey(Load, on_delete=models.CASCADE, null=True, blank=True)
@@ -123,7 +118,7 @@ class RealizeStep(models.Model):
 
 
 class Note(models.Model):
-    text = models.CharField(max_length=63999)
+    text = models.CharField(max_length=63999, default="Текст заметки")
     image = models.ImageField(default=None, blank=True)
 
     calendar_app = models.ForeignKey(CalendarApp, on_delete=models.CASCADE, null=True, blank=True)
