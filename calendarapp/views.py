@@ -207,32 +207,138 @@ def calendar_note_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    return note_view(request, 'calendar/note.html', 'calendar_app')
+    context = {}
+
+    note = None
+
+    try:
+        note = Note.objects.get(
+            calendar_app=filter_by_owner(CalendarApp, request.user),
+        )
+    except Exception:
+        Note.objects.create(
+            calendar_app=filter_by_owner(CalendarApp, request.user),
+        )
+        pass
+
+    context['note'] = note
+
+    return render(request, 'calendar/note.html', context)
 
 
 def calendar_note_edit_text_view(request, note_id):
-    return note_edit_text_view(request, note_id, 'calendar/note.html')
+    context = {}
+
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST:
+        note.text = request.POST['note_text']
+        note.save()
+
+        context['note'] = note
+
+        return render(request, 'calendar/note.html', context)
+
+    return render(request, 'stopper.html')
 
 
 def calendar_note_edit_image_view(request, note_id):
-    return note_edit_image_view(request, note_id, 'calendar/note.html')
+    context = {}
+
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST and request.FILES:
+        file = request.FILES['note_image']
+        fs = FileSystemStorage()
+        fs.save(file.name, file)
+
+        note.image = file
+        note.save()
+
+        context['note'] = note
+
+        return render(request, 'calendar/note.html', context)
+
+    return render(request, 'stopper.html')
 
 
 def calendar_note_delete_view(request, note_id):
-    return note_delete_view(request, note_id, 'calendar/note.html')
+    context = {}
+
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST:
+        note.delete()
+
+        return redirect(request, 'calendar/note.html', context)
+
+    return render(request, 'stopper.html')
 
 
-def doing_note_view(request):
-    return note_view(request, 'calendar/doing/note.html', 'doing')
+def doing_note_view(request, doing_id):
+    context = {}
+
+    note = None
+
+    try:
+        note = Note.objects.get(
+            doing=Doing.objects.get(pk=doing_id),
+        )
+    except Exception:
+        Note.objects.create(
+            doing=Doing.objects.get(pk=doing_id),
+        )
+        pass
+
+    context['note'] = note
+
+    return render(request, 'calendar/doing/note.html', context)
 
 
 def doing_note_edit_text_view(request, note_id):
-    return note_edit_text_view(request, note_id, 'calendar/doing/note.html')
+    context = {}
+
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST:
+        note.text = request.POST['note_text']
+        note.save()
+
+        context['note'] = note
+
+        return render(request, 'calendar/doing/note.html', context)
+
+    return render(request, 'stopper.html')
 
 
 def doing_note_edit_image_view(request, note_id):
-    return note_edit_image_view(request, note_id, 'calendar/doing/note.html')
+    context = {}
+
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST and request.FILES:
+        file = request.FILES['note_image']
+        fs = FileSystemStorage()
+        fs.save(file.name, file)
+
+        note.image = file
+        note.save()
+
+        context['note'] = note
+
+        return render(request, 'calendar/doing/note.html', context)
+
+    return render(request, 'stopper.html')
 
 
 def doing_note_delete_view(request, note_id):
-    return note_delete_view(request, note_id, 'calendar/doing/note.html')
+    context = {}
+
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST:
+        note.delete()
+
+        return redirect(request, 'calendar/doing/note.html', context)
+
+    return render(request, 'stopper.html')
