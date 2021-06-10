@@ -5,9 +5,13 @@
 {% endblock %}
 
 {% block stylesheet-link %}
-    <link rel="stylesheet" href="../../static/style.css" type="text/css">
-    <link rel="stylesheet" href="../../static/profile/detail.css" type="text/css">
-    <link rel="stylesheet" href="../../static/note.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/note.css" type="text/css">
+{% endblock %}
+
+{% block note_name %}
+    Заметка календаря
 {% endblock %}
 
 {% block url_edit_text %}
@@ -16,4 +20,8 @@
 
 {% block url_edit_image %}
     {% url 'calendar_note_edit_image' note.pk %}
+{% endblock %}
+
+{% block url_delete_btn %}
+    {% url 'calendar_note_delete' note.pk %}
 {% endblock %}

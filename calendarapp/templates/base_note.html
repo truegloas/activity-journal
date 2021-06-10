@@ -2,7 +2,7 @@
 
 {% block additional-pre-content %}
     <div class="between">
-        <p class="between__name">Заметка календаря</p>
+        <p class="between__name">{% block note_name %}{% endblock %}</p>
         <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
     </div>
 {% endblock %}
@@ -27,5 +27,5 @@
         {% csrf_token %}
         <input type="file" name="note_image" onchange="document.getElementById('image_edit_form').submit();" value="{{ note.image }}">
     </form>
-    <button class="section__trash" type="submit" onclick="location.href='{% url 'calendar_note_delete' note.pk %}'" name="trash-btn">delete</button>
+    <button class="section__trash" type="submit" onclick="location.href='{% block url_delete_btn %}{% endblock %}'" name="trash-btn">delete</button>
 {% endblock %}

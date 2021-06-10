@@ -1,36 +1,27 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Заметка для Деятельности</title>
+{% extends 'base_note.html' %}
 
-    <link rel="stylesheet" href="../static/style.css" type="text/css">
-    <link rel="stylesheet" href="../static/profile/detail.css" type="text/css">
-    <link rel="stylesheet" href="../static/note.css" type="text/css">
+{% block title %}
+    Заметка для Деятельности
+{% endblock %}
 
-</head>
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/note.css" type="text/css">
+{% endblock %}
 
-{% load static %}
+{% block note_name %}
+    Заметка деятельности
+{% endblock %}
 
-<body>
-    <div class="page-wrapper">
-        <header class="header">
-            <a href="profile" class="header__item">Профиль</a>
-            <a href="calendar" class="header__item">Календарь</a>
-            <button type="button" class="header__item">Выход</button>
-        </header>
-        <div class="between">
-            <p class="between__name">Заметка</p>
-            <button type="button" class="btn-back">Назад</button>
-        </div>
-        <div class="wrapper">
-            <section class="note-section">
-                <textarea class="note__body">Текст заметки</textarea>
-            </section>
-        </div>
-        <section class="btns-section">
-            <button type="button" class="section__add-photo">add photo</button>
-        </section>
-    </div>
-</body>
-</html>
+{% block url_edit_text %}
+    {% url 'doing_note_edit_text' note.pk %}
+{% endblock %}
+
+{% block url_edit_image %}
+    {% url 'doing_note_edit_image' note.pk %}
+{% endblock %}
+
+{% block url_delete_btn %}
+    {% url 'doing_note_delete' note.pk %}
+{% endblock %}

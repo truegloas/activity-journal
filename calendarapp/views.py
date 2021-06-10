@@ -200,14 +200,14 @@ def change_doing_name(request, doing_id):
 
         return redirect('doing', doing_id)
 
-    return render(request, 'base.html', {})
+    return render(request, 'stopper.html')
 
 
 def calendar_note_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    return note_view(request, 'calendar/note.html')
+    return note_view(request, 'calendar/note.html', 'calendar_app')
 
 
 def calendar_note_edit_text_view(request, note_id):
@@ -220,3 +220,19 @@ def calendar_note_edit_image_view(request, note_id):
 
 def calendar_note_delete_view(request, note_id):
     return note_delete_view(request, note_id, 'calendar/note.html')
+
+
+def doing_note_view(request):
+    return note_view(request, 'calendar/doing/note.html', 'doing')
+
+
+def doing_note_edit_text_view(request, note_id):
+    return note_edit_text_view(request, note_id, 'calendar/doing/note.html')
+
+
+def doing_note_edit_image_view(request, note_id):
+    return note_edit_image_view(request, note_id, 'calendar/doing/note.html')
+
+
+def doing_note_delete_view(request, note_id):
+    return note_delete_view(request, note_id, 'calendar/doing/note.html')

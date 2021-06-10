@@ -8,18 +8,20 @@ def filter_by_owner(model, user):
     return model.objects.filter(owner=user)[0]
 
 
-def note_view(request, render_page, context=None):
+def note_view(request, render_page, owner_model_name, context=None):
     if context is None:
         context = {}
         pass
 
     note = Note.objects.get(
-        calendar_app=filter_by_owner(CalendarApp, request.user)
+        **{owner_model_name: filter_by_owner(CalendarApp, request.user)}
     )
+
+    print(note)
 
     if not note:
         Note.objects.create(
-            calendar_app=filter_by_owner(CalendarApp, request.user)
+            **{owner_model_name: filter_by_owner(CalendarApp, request.user)}
         )
         pass
 
@@ -65,7 +67,7 @@ def note_edit_image_view(request, note_id, render_page, context=None):
 
         return render(request, render_page, context)
 
-    return render(request, 'base.html')
+    return render(request, 'stopper.html')
 
 
 def note_delete_view(request, note_id, render_page, context=None):
