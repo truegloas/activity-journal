@@ -128,18 +128,21 @@ def calendar_view(request):
     context = {}
 
     if request.GET:
-        get_date = date(
-            *list(
-                reversed(
-                    list(
-                        map(
-                            lambda x: int(x), request.GET['date'].split('-')
+        try:
+            get_date = date(
+                *list(
+                    reversed(
+                        list(
+                            map(
+                                lambda x: int(x), request.GET['date'].split('-')
+                            )
                         )
                     )
                 )
             )
-        )
-        return redirect('doings_day', get_date.year, get_date.month, get_date.day)
+            return redirect('doings_day', get_date.year, get_date.month, get_date.day)
+        except Exception:
+            messages.error(request, 'Неправильный формат даты, правильный: dd-mm-yyyy')
 
     return render(request, 'calendar/date_selector.html', context)
 

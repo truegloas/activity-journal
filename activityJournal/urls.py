@@ -19,5 +19,4 @@ from django.contrib import admin
 urlpatterns = [
     path('', include('calendarapp.urls')),
     path('admin/', admin.site.urls, name='admin'),
-    path(r'^inplaceeditform/', include('inplaceeditform.urls')),
 ]

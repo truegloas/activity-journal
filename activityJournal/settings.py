@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inplaceeditform',
     'calendarapp.apps.CalendarappConfig',
 ]
 
@@ -129,22 +128,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'calendarapp.User'
-
-TEMPLATE_CONTEXT_PROCESSORS = [
-    'django.core.context_processors.request',
-]
-
-ADAPTOR_INPLACEEDIT = {
-    'auto_fk': 'inplaceeditform_extra_fields.fields.AdaptorAutoCompleteForeingKeyField',
-    'auto_m2m': 'inplaceeditform_extra_fields.fields.AdaptorAutoCompleteManyToManyField',
-    'image_thumb': 'inplaceeditform_extra_fields.fields.AdaptorImageThumbnailField',
-    'tiny': 'inplaceeditform_extra_fields.fields.AdaptorTinyMCEField',
-}
-
-ADAPTOR_INPLACEEDIT_EDIT = 'calendarapp.perms.AdaptorEditInline'
-
-INPLACEEDIT_DISABLE_CLICK = False
-
-THUMBNAIL_DEBUG = True
-
-INPLACEEDIT_EVENT = 'click'
