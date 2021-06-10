@@ -1,0 +1,19 @@
+{% extends 'base_note.html' %}
+
+{% block title %}
+    Заметка для Календаря
+{% endblock %}
+
+{% block stylesheet-link %}
+    <link rel="stylesheet" href="../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../static/note.css" type="text/css">
+{% endblock %}
+
+{% block url_edit_text %}
+    {% url 'calendar_note_edit_text' note.pk %}
+{% endblock %}
+
+{% block url_edit_image %}
+    {% url 'calendar_note_edit_image' note.pk %}
+{% endblock %}

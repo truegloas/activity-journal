@@ -121,6 +121,15 @@ class Note(models.Model):
     text = models.CharField(max_length=63999, default="Текст заметки")
     image = models.ImageField(upload_to='images', default=None, blank=True)
 
-    calendar_app = models.ForeignKey(CalendarApp, on_delete=models.CASCADE, null=True, blank=True)
-    doing = models.ForeignKey(Doing, on_delete=models.CASCADE, null=True, blank=True)
-    realize_step = models.ForeignKey(RealizeStep, on_delete=models.CASCADE, null=True, blank=True)
+    calendar_app = models.OneToOneField(
+        CalendarApp, on_delete=models.CASCADE, null=True, blank=True,
+    )
+    doing = models.OneToOneField(
+        Doing, on_delete=models.CASCADE, null=True, blank=True,
+    )
+    realize_step = models.OneToOneField(
+        RealizeStep, on_delete=models.CASCADE, null=True, blank=True,
+    )
+
+    def get_absolute_url(self):
+        return reverse('calendar_notes', kwargs={'note_id': self.pk})

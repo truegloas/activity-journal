@@ -1,7 +1,5 @@
 from datetime import date
-from django.views.generic import CreateView
-from django.urls import reverse_lazy
-from django.contrib import messages, admin
+from django.contrib import messages
 from django.contrib.auth import (
     authenticate,
     logout,
@@ -15,11 +13,11 @@ from django.shortcuts import (
     redirect
 )
 
+from django.core.files.storage import FileSystemStorage
+
 from .forms import (
     RegistrationForm,
     UserAuthenticationForm,
-    UserUpdatePassword,
-    NoteForm,
 )
 
 from .models import *
@@ -209,48 +207,45 @@ def calendar_notes_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    notes = Note.objects.filter(
+    note = Note.objects.get(
         calendar_app=filter_by_owner(CalendarApp, request.user)
     )
 
-    if len(notes.values()) == 0:
+    if not note:
         Note.objects.create(
             calendar_app=filter_by_owner(CalendarApp, request.user)
         )
 
     context = {
-        'notes': notes,
+        'note': note,
     }
 
-    return render(request, 'calendar/notes.html', context)
+    return render(request, 'calendar/note.html', context)
 
 
-class CreateNoteView(CreateView):
-    model = Note
-    form_class = NoteForm
-    template_name = 'calendar/notes.html'
-    success_url = reverse_lazy('calendar_notes')
+def calendar_note_edit_text_view(request, note_id):
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST:
+        note.text = request.POST['note_text']
+        note.save()
+
+        return render(request, 'calendar/note.html', {'note': note})
+
+    return render(request, 'base.html')
 
 
-# def note_add_view(request):
-#
-#     # context = {}
-#
-#     if request.POST:
-#         form = NoteForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             img_obj = form.instance
-#
-#             # context['form'] = form
-#             # context['img_obj'] = img_obj
-#
-#             return render(request, 'calendar/notes.html', {'form': form, 'img_obj': img_obj})
-#         # else:
-#         #     messages.error(request, "Пожалуйста, исправьте ошибки")
-#         #     context['form'] = form
-#     else:
-#         form = NoteForm()
-#         # context['form'] = form
-#
-#     return render(request, 'calendar/notes.html', {'form': form})
+def calendar_note_edit_image_view(request, note_id):
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST and request.FILES:
+        file = request.FILES['note_image']
+        fs = FileSystemStorage()
+        fs.save(file.name, file)
+
+        note.image = file
+        note.save()
+
+        return render(request, 'calendar/note.html', {'note': note})
+
+    return render(request, 'base.html')
