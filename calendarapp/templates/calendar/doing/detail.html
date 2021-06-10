@@ -1,8 +1,6 @@
 {% extends 'base_auth.html' %}
 {% load static %}
 
-{% load i18n inplace_edit %}
-
 {% block title %}
     {{ doing.name }}
 {% endblock %}
@@ -15,9 +13,13 @@
 
 {% block additional-pre-content %}
     <div class="between">
-       <p class="between__name">{% inplace_edit "doing.name" %}</p>
-       <p class="datetime">17-01-2021</p>
-       <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
+        <form id="edit_doing_name_form" method="post" action="{% url 'change_doing_name' doing.pk %}" class="between__form">
+            {% csrf_token %}
+            <input type="text" name="doing_name" value="{{ doing.name }}" class="form-control"
+                   required id="id_doing_name" onchange="document.getElementById('edit_doing_name_form').submit();">
+        </form>
+        <p class="datetime">{{ doing.start_time }}</p>
+        <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
    </div>
 {% endblock %}
 
@@ -30,6 +32,9 @@
         <p class="doing__item">hh:mm</p>
         <p class="doing__item">hh:mm</p>
     </section>
+{% endblock %}
+
+{% block additional-content %}
     <section class="btns-section">
         <button class="section__plus">+</button>
         <a href="note.html" class="section__note">note</a>

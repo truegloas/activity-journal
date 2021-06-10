@@ -1,6 +1,5 @@
 {% extends 'base_auth.html' %}
 {% load static %}
-{% load i18n inplace_edit %}
 
 {% block title %}
     Список деятельностей
@@ -26,7 +25,7 @@
                 <a href="{{ d.get_absolute_url }}">
                     <p>{{ d.name }}</p>
                 </a>
-                <p>{% inplace_edit "d.doing_type" %}</p>
+                <p>{{ d.doing_type }}</p>
             </div>
         {% endfor %}
     </section>

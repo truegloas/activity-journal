@@ -187,6 +187,19 @@ def doing_view(request, doing_id):
     return render(request, 'calendar/doing/detail.html', context)
 
 
+def change_doing_name(request, doing_id):
+    doing = Doing.objects.get(pk=doing_id)
+
+    if request.POST:
+        doing.name = request.POST['doing_name']
+
+        doing.save()
+
+        return redirect('doing', doing_id)
+
+    return render(request, 'base.html', {})
+
+
 def calendar_notes_view(request):
     if not request.user.is_authenticated:
         return redirect('login')

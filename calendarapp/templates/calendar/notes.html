@@ -1,6 +1,5 @@
 {% extends 'base_auth.html' %}
 {% load static %}
-{% load i18n inplace_edit %}
 
 {% block title %}
     Заметка для Календаря
@@ -15,7 +14,7 @@
 {% block additional-pre-content %}
     <div class="between">
         <p class="between__name">Заметка календаря</p>
-        <button type="button" class="btn-back">Назад</button>
+        <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
     </div>
 {% endblock %}
 
@@ -23,7 +22,8 @@
     <section class="note-section">
         {% for note in notes %}
             <p class="note__body">
-                {% inplace_edit "note.text" %}
+{#                {% inplace_edit "note.text" %}#}
+                {{ note.text }}
             </p>
             <div class="note__image">
                 {{ note.image }}
