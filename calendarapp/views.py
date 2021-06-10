@@ -203,49 +203,20 @@ def change_doing_name(request, doing_id):
     return render(request, 'base.html', {})
 
 
-def calendar_notes_view(request):
+def calendar_note_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    note = Note.objects.get(
-        calendar_app=filter_by_owner(CalendarApp, request.user)
-    )
-
-    if not note:
-        Note.objects.create(
-            calendar_app=filter_by_owner(CalendarApp, request.user)
-        )
-
-    context = {
-        'note': note,
-    }
-
-    return render(request, 'calendar/note.html', context)
+    return note_view(request, 'calendar/note.html')
 
 
 def calendar_note_edit_text_view(request, note_id):
-    note = Note.objects.get(pk=note_id)
-
-    if request.POST:
-        note.text = request.POST['note_text']
-        note.save()
-
-        return render(request, 'calendar/note.html', {'note': note})
-
-    return render(request, 'base.html')
+    return note_edit_text_view(request, note_id, 'calendar/note.html')
 
 
 def calendar_note_edit_image_view(request, note_id):
-    note = Note.objects.get(pk=note_id)
+    return note_edit_image_view(request, note_id, 'calendar/note.html')
 
-    if request.POST and request.FILES:
-        file = request.FILES['note_image']
-        fs = FileSystemStorage()
-        fs.save(file.name, file)
 
-        note.image = file
-        note.save()
-
-        return render(request, 'calendar/note.html', {'note': note})
-
-    return render(request, 'base.html')
+def calendar_note_delete_view(request, note_id):
+    return note_delete_view(request, note_id, 'calendar/note.html')

@@ -11,8 +11,10 @@
     <section class="note-section">
         <form id="text_edit_form" method="post" enctype="multipart/form-data" action="{% block url_edit_text %}{% endblock %}">
             {% csrf_token %}
-            <input type="text" name="note_text" value="{{ note.text }}"
+            <textarea name="note_text"  maxlength="63999"
                    required id="id_note_text" onchange="document.getElementById('text_edit_form').submit();">
+                {{ note.text }}
+            </textarea>
         </form>
         {% if note.image %}
             <img src="{{ note.image.url }}" alt="Соединение">
@@ -25,4 +27,5 @@
         {% csrf_token %}
         <input type="file" name="note_image" onchange="document.getElementById('image_edit_form').submit();" value="{{ note.image }}">
     </form>
+    <button class="section__trash" type="submit" onclick="location.href='{% url 'calendar_note_delete' note.pk %}'" name="trash-btn">delete</button>
 {% endblock %}
