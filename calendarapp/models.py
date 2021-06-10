@@ -119,7 +119,7 @@ class RealizeStep(models.Model):
 
 class Note(models.Model):
     text = models.CharField(max_length=63999, default="Текст заметки")
-    image = models.ImageField(default=None, blank=True)
+    image = models.ImageField(upload_to='images', default=None, blank=True)
 
     calendar_app = models.ForeignKey(CalendarApp, on_delete=models.CASCADE, null=True, blank=True)
     doing = models.ForeignKey(Doing, on_delete=models.CASCADE, null=True, blank=True)

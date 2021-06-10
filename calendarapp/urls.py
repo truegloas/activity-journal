@@ -15,6 +15,7 @@ urlpatterns = [
     path('profile/change_password/', change_password_view, name='change_password'),
     path('calendar/', calendar_view, name='calendar'),
     path('calendar/notes/', calendar_notes_view, name='calendar_notes'),
+    path('calendar/notes/upload', CreateNoteView.as_view, name='note_add'),
     path('calendar/<int:year>/<int:month>/<int:day>/', doings_list_view, name='doings_day'),
     path('calendar/doing/<int:doing_id>', doing_view, name='doing'),
     path('calendar/doing/<int:doing_id>/change_name', change_doing_name, name='change_doing_name'),

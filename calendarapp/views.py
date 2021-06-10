@@ -1,5 +1,6 @@
 from datetime import date
-from django.views.generic.dates import DayArchiveView
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
 from django.contrib import messages, admin
 from django.contrib.auth import (
     authenticate,
@@ -18,6 +19,7 @@ from .forms import (
     RegistrationForm,
     UserAuthenticationForm,
     UserUpdatePassword,
+    NoteForm,
 )
 
 from .models import *
@@ -221,3 +223,34 @@ def calendar_notes_view(request):
     }
 
     return render(request, 'calendar/notes.html', context)
+
+
+class CreateNoteView(CreateView):
+    model = Note
+    form_class = NoteForm
+    template_name = 'calendar/notes.html'
+    success_url = reverse_lazy('calendar_notes')
+
+
+# def note_add_view(request):
+#
+#     # context = {}
+#
+#     if request.POST:
+#         form = NoteForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             img_obj = form.instance
+#
+#             # context['form'] = form
+#             # context['img_obj'] = img_obj
+#
+#             return render(request, 'calendar/notes.html', {'form': form, 'img_obj': img_obj})
+#         # else:
+#         #     messages.error(request, "Пожалуйста, исправьте ошибки")
+#         #     context['form'] = form
+#     else:
+#         form = NoteForm()
+#         # context['form'] = form
+#
+#     return render(request, 'calendar/notes.html', {'form': form})

@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import *
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 
@@ -52,3 +52,18 @@ class UserUpdatePassword(PasswordChangeForm):
         super(UserUpdatePassword, self).__init__(*args, **kwargs)
         for field in (self.fields['old_password'], self.fields['new_password1'], self.fields['new_password2']):
             field.widget.attrs.update({'class': 'form-control'})
+
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ('text', 'image')
+    #     widgets = {
+    #         'text': forms.TextInput(attrs={'class': 'form-control'}),
+    #         'image': forms.ImageField(),
+    #     }
+    #
+    # def __init__(self, *args, **kwargs):
+    #     super(NoteForm, self).__init__(*args, **kwargs)
+    #     for field in (self.fields['text'], self.fields['image']):
+    #         field.widget.attrs.update({'class': 'form-control'})

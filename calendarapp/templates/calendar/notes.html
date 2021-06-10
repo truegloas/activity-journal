@@ -21,19 +21,27 @@
 {% block content %}
     <section class="note-section">
         {% for note in notes %}
-            <p class="note__body">
+            <form id="note_form" method="post" enctype="multipart/form-data" action="{% url 'note_add' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+{#                <input type="">#}
+            </form>
+            {% if img_obj %}
+                <img src="{{ img_obj.image.url }}" alt="Соединение">
+            {% endif %}
+{#            <p class="note__body">#}
 {#                {% inplace_edit "note.text" %}#}
-                {{ note.text }}
-            </p>
-            <div class="note__image">
-                {{ note.image }}
-            </div>
+{#                {{ note.text }}#}
+{#            </p>#}
+{#            <div class="note__image">#}
+{#                {{ note.image }}#}
+{#            </div>#}
         {% endfor %}
     </section>
 {% endblock %}
 
 {% block additional-content %}
     <section class="btns-section">
-        <button type="button" class="section__add-photo">Иллюстрация</button>
+        <button form="note_form" type="button" class="section__add-photo">Иллюстрация</button>
     </section>
 {% endblock %}
