@@ -8,6 +8,7 @@
 {% block stylesheet-link %}
     <link rel="stylesheet" href="../../../static/style.css" type="text/css">
     <link rel="stylesheet" href="../../../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/calendar/date_selector.css" type="text/css">
     <link rel="stylesheet" href="../../../static/calendar/detail.css" type="text/css">
     <link rel="stylesheet" href="../../../static/calendar/doing/detail.css" type="text/css">
 {% endblock %}
@@ -42,7 +43,7 @@
 {% block additional-content %}
     <section class="btns-section">
         <button class="section__plus">+</button>
-        <a href="{% url 'doing_note' doing.pk %}" class="section__note">note</a>
+        <a href="{% url 'doing_note' doing.pk %}" class="section__note note-btn__image"></a>
         <button class="section__trash"></button>
     </section>
 {% endblock %}
