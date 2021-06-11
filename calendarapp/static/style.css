@@ -70,6 +70,9 @@ body {
 }
 
 .wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+
   min-height: 62.5vh;
   max-height: 62.5vh;
 
@@ -78,6 +81,13 @@ body {
   overflow: scroll;
 
   margin-top: 4vh;
+
+  border: 1px solid black;
+}
+
+.form-control {
+  width: 72vw;
+  height: 6vh;
 
   border: 1px solid black;
 }

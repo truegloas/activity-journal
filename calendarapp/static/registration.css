@@ -1,21 +1,46 @@
-.form-section {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-around;
-
-    height: 1000px;
-}
-
 .form-section__form {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-around;
+    align-items: stretch;
+
+    min-height: 62.5vh;
+    max-height: 62.5vh;
+}
+
+.form-section {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: stretch;
 }
 
 .form-section__item {
-    padding: 3vh 8vw;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: 3vh;
 }
 
 .form-section__label {
-    margin-bottom: 3vh;
+    padding-bottom: 3vh;
+}
+
+.btn-section {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    width: 88vw;
+    height: 16vh;
+}
+
+.btn-section__btn {
+    width: 72vw;
+    height: 6vh;
+
+    border: 1px solid black;
 }

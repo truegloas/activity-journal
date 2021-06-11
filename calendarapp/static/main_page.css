@@ -1,4 +1,9 @@
 .section {
+    display: flex;
+
+    flex-flow: column nowrap;
+    justify-content: space-between;
+
     margin: 5vh 1vw;
 }
 
@@ -6,4 +11,18 @@
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
+    text-decoration: underline black;
+}
+
+.section__hello-message {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.hello-message__item {
+    margin-bottom: 4vh;
+}
+
+.links__item {
+    margin-bottom: 1vh;
 }

@@ -11,18 +11,18 @@
 {% block else-block %}
     <form id="registration_form" method="post" action="{% url 'registration' %}" class="form-section__form">
         {% csrf_token %}
+        <h3 class="form-section__header">Регистрация</h3>
         <section class="form-section">
-            <h3 class="form-section__header">Регистрация</h3>
                 <div class="form-section__item">
-                    <label for="id_email">Введите E-mail</label>
+                    <label for="id_email" class="form-section__label">Введите E-mail</label>
                     <input type="text" name="email" class="form-control" required id="id_email">
                 </div>
                 <div class="form-section__item">
-                    <label for="id_password1">Введите пароль</label>
+                    <label for="id_password1" class="form-section__label">Введите пароль</label>
                     <input type="password" name="password1" class="form-control" required id="id_password1">
                 </div>
                 <div class="form-section__item">
-                    <label for="id_password2">Подтвердите пароль</label>
+                    <label for="id_password2" class="form-section__label">Подтвердите пароль</label>
                     <input type="password" name="password2" class="form-control" required id="id_password2">
                 </div>
         </section>
