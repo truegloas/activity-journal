@@ -22,7 +22,7 @@ urlpatterns = [
     path('calendar/note/', calendar_note_view, name='calendar_note'),
     path('calendar/note/<int:note_id>/edit_text/', calendar_note_edit_text_view, name='calendar_note_edit_text'),
     path('calendar/note/<int:note_id>/edit_image/', calendar_note_edit_image_view, name='calendar_note_edit_image'),
-    path('calendar/note/<int:note_id>/', calendar_note_delete_view, name='calendar_note_delete'),
+    path('calendar/note/<int:note_id>/delete/', calendar_note_delete_view, name='calendar_note_delete'),
 
     path('calendar/<int:year>/<int:month>/<int:day>/', doings_list_view, name='doings_day'),
     path('calendar/doing/<int:doing_id>/', doing_view, name='doing'),

@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block stylesheet-link %}
-    <link rel="stylesheet" href="../../../static/style.css" type="text/css">
-    <link rel="stylesheet" href="../../../static/profile/detail.css" type="text/css">
-    <link rel="stylesheet" href="../../../static/note.css" type="text/css">
+    <link rel="stylesheet" href="../../../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../../static/profile/detail.css" type="text/css">
+    <link rel="stylesheet" href="../../../../static/note.css" type="text/css">
 {% endblock %}
 
 {% block note_name %}
@@ -22,6 +22,6 @@
     {% url 'calendar_note_edit_image' note.pk %}
 {% endblock %}
 
-{% block url_delete_btn %}
-    {% url 'calendar_note_delete' note.pk %}
+{% block delete_btn %}
+    <button class="section__trash" type="submit" onclick="location.href='{% url 'calendar_note_delete' note.pk %}'" name="trash-btn">delete</button>
 {% endblock %}

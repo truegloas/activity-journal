@@ -27,5 +27,7 @@
         {% csrf_token %}
         <input type="file" name="note_image" onchange="document.getElementById('image_edit_form').submit();" value="{{ note.image }}">
     </form>
-    <button class="section__trash" type="submit" onclick="location.href='{% block url_delete_btn %}{% endblock %}'" name="trash-btn">delete</button>
+    {% block delete_btn %}
+    {% endblock %}
 {% endblock %}
+

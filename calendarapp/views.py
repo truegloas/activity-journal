@@ -220,7 +220,6 @@ def change_doing_date(request, doing_id):
         return redirect('doing', doing_id)
 
 
-
 def calendar_note_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -233,15 +232,16 @@ def calendar_note_view(request):
         note = Note.objects.get(
             calendar_app=filter_by_owner(CalendarApp, request.user),
         )
+        context['note'] = note
+        return render(request, 'calendar/note.html', context)
     except Exception:
         Note.objects.create(
             calendar_app=filter_by_owner(CalendarApp, request.user),
         )
+        messages.success(request, 'Заметка успешно создана')
+
+        return redirect('calendar')
         pass
-
-    context['note'] = note
-
-    return render(request, 'calendar/note.html', context)
 
 
 def calendar_note_edit_text_view(request, note_id):
@@ -281,16 +281,11 @@ def calendar_note_edit_image_view(request, note_id):
 
 
 def calendar_note_delete_view(request, note_id):
-    context = {}
+    Note.objects.get(pk=note_id).delete()
 
-    note = Note.objects.get(pk=note_id)
+    messages.success(request, 'Заметка успешно удалена')
 
-    if request.POST:
-        note.delete()
-
-        return redirect(request, 'calendar/note.html', context)
-
-    return render(request, 'stopper.html')
+    return redirect('calendar')
 
 
 def doing_note_view(request, doing_id):
