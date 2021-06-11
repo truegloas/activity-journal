@@ -27,6 +27,7 @@ urlpatterns = [
     path('calendar/<int:year>/<int:month>/<int:day>/', doings_list_view, name='doings_day'),
     path('calendar/doing/<int:doing_id>/', doing_view, name='doing'),
     path('calendar/doing/<int:doing_id>/change_name', change_doing_name, name='change_doing_name'),
+    path('calendar/doing/<int:doing_id>/change_date', change_doing_date, name='change_doing_date'),
 
     path('calendar/doing/<int:doing_id>/note/', doing_note_view, name='doing_note'),
     path('calendar/doing/note/<int:note_id>/edit_text/', doing_note_edit_text_view, name='doing_note_edit_text'),

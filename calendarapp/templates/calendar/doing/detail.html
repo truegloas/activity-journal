@@ -13,12 +13,16 @@
 
 {% block additional-pre-content %}
     <div class="between">
-        <form id="edit_doing_name_form" method="post" action="{% url 'change_doing_name' doing.pk %}" class="between__form">
+        <form id="edit_doing_name_form" method="post" action="{% url 'change_doing_name' doing.pk %}" class="between__form-name">
             {% csrf_token %}
             <input type="text" name="doing_name" value="{{ doing.name }}" class="form-control"
                    required id="id_doing_name" onchange="document.getElementById('edit_doing_name_form').submit();">
         </form>
-        <p class="datetime">{{ doing.start_time }}</p>
+        <form id="edit_doing_date_form" method="post" action="{% url 'change_doing_date' doing.pk %}" class="between__form-date">
+            {% csrf_token %}
+            <input type="date" name="doing_date" value="{{ year }}-{{ month }}-{{ day }}" class="form-control"
+                   required id="id_doing_date" onchange="document.getElementById('edit_doing_date_form').submit();">
+        </form>
         <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
    </div>
 {% endblock %}

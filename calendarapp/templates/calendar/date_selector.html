@@ -16,7 +16,8 @@
         <section class="form-section">
             <div class="form-section__item">
                 <label for="id_date">Введите дату</label>
-                <input type="text" name="date" class="form-control" required id="id_date">
+                <input type="date" name="date" class="form-control" required id="id_date"
+                onchange="document.getElementById('date_form').submit();">
             </div>
         </section>
     </form>

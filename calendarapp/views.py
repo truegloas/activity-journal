@@ -129,20 +129,10 @@ def calendar_view(request):
 
     if request.GET:
         try:
-            get_date = date(
-                *list(
-                    reversed(
-                        list(
-                            map(
-                                lambda x: int(x), request.GET['date'].split('-')
-                            )
-                        )
-                    )
-                )
-            )
+            get_date = extract_date_from_str(request.GET['date'])
             return redirect('doings_day', get_date.year, get_date.month, get_date.day)
         except Exception:
-            messages.error(request, 'Неправильный формат даты, правильный: dd-mm-yyyy')
+            messages.error(request, 'Данная ошибка неизвестна, свяжитесь с администратором')
 
     return render(request, 'calendar/date_selector.html', context)
 
@@ -151,6 +141,8 @@ def doings_list_view(request, year, month, day):
 
     doings = Doing.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
                                   start_time=date(year, month, day))
+
+    year, month, day = date_formatter(year, month, day)
 
     context = {
         'doings': doings,
@@ -183,8 +175,17 @@ def doing_view(request, doing_id):
 
     doing = Doing.objects.get(pk=doing_id)
 
+    year, month, day = date_formatter(
+        doing.start_time.year,
+        doing.start_time.month,
+        doing.start_time.day
+    )
+
     context = {
         'doing': doing,
+        'year': year,
+        'month': month,
+        'day': day,
     }
 
     return render(request, 'calendar/doing/detail.html', context)
@@ -201,6 +202,23 @@ def change_doing_name(request, doing_id):
         return redirect('doing', doing_id)
 
     return render(request, 'stopper.html')
+
+
+def change_doing_date(request, doing_id):
+    doing = Doing.objects.get(pk=doing_id)
+
+    if request.POST:
+        try:
+            doing.start_time = extract_date_from_str(request.POST['doing_date'])
+            doing.save()
+
+            return redirect('doing', doing_id)
+        except Exception:
+            messages.error(request, 'Неправильный формат даты, правильный: dd-mm-yyyy')
+            pass
+
+        return redirect('doing', doing_id)
+
 
 
 def calendar_note_view(request):
