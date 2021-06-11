@@ -23,5 +23,5 @@
 {% endblock %}
 
 {% block url_delete_btn %}
-    {% url 'doing_note_delete' note.pk %}
+    <button class="section__trash" type="submit" onclick="location.href='{% url 'doing_note_delete' note.pk %}'" name="trash-btn">delete</button>
 {% endblock %}

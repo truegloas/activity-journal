@@ -13,7 +13,7 @@
 
 {% block additional-pre-content %}
        <div class="between">
-           <p class="datetime">{{ day }}-{{ month }}-{{ year }}</p>
+           <p class="datetime">{{ day }}.{{ month }}.{{ year }}</p>
            <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
        </div>
 {% endblock %}
@@ -21,7 +21,7 @@
 {% block else-block %}
     <section class="calendar-section">
         {% for d in doings %}
-            <div class="calendar__item">
+            <div class="calendar__item profile__block">
                 <a href="{{ d.get_absolute_url }}">
                     <p>{{ d.name }}</p>
                 </a>
@@ -34,9 +34,6 @@
 {% block additional-content %}
     <section class="btns-section">
         <button class="section__plus" type="submit" onclick="location.href='{% url 'append_doing' year month day %}'" name="plus-btn">+</button>
-        <div class="btns-section__wrapper">
-            <a href="{% url 'calendar_note' %}">Заметка</a>
-        </div>
-        <button class="section__trash" type="submit" onclick="location.href='{% url 'delete_doings' year month day %}'" name="trash-btn">delete</button>
+        <button class="section__trash" type="submit" onclick="location.href='{% url 'delete_doings' year month day %}'" name="trash-btn"></button>
     </section>
 {% endblock %}

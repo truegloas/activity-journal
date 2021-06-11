@@ -12,12 +12,18 @@
 
 {% block else-block %}
     <section class="section">
-        <p class="profile__item">E-mail</p>
-        <p class="profile__item">{{ request.user.email }}</p>
-        <p class="profile__item">Пароль</p>
-        <a href="{% url 'change_password' %}" class="profile__item">Изменить пароль</a>
+        <div class="profile__block">
+            <p class="profile__item">E-mail</p>
+            <p class="profile__item">{{ request.user.email }}</p>
+        </div>
+        <div class="profile__block">
+            <p class="profile__item">Пароль</p>
+            <a href="{% url 'change_password' %}" class="profile__item profile__item--change_pass-link">Изменить пароль</a>
+        </div>
         {% if request.user.is_admin %}
-            <a href="" class="profile__item profile__item--admin-link">Панель администрирования</a>
+            <div class="profile__block profile__block--admin_block">
+                <a href="{% url 'admin:index' %}" class="profile__item profile__item--admin-link">Панель администрирования</a>
+            </div>
         {% endif %}
     </section>
 {% endblock %}

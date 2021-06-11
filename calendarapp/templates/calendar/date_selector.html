@@ -7,6 +7,7 @@
 
 {% block stylesheet-link %}
     <link rel="stylesheet" href="../../static/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/registration.css" type="text/css">
     <link rel="stylesheet" href="../../static/calendar/date_selector.css" type="text/css">
 {% endblock %}
 
@@ -15,7 +16,7 @@
         {% csrf_token %}
         <section class="form-section">
             <div class="form-section__item">
-                <label for="id_date">Введите дату</label>
+                <label for="id_date" class="form-section__label">Введите дату</label>
                 <input type="date" name="date" class="form-control" required id="id_date"
                 onchange="document.getElementById('date_form').submit();">
             </div>
@@ -24,14 +25,12 @@
 {% endblock %}
 
 {% block additional-content %}
-    <section class="btn-section">
-        <div class="btn-section__wrapper">
-            <button form="date_form" type="submit" class="btn-section__btn">Ввести</button>
-        </div>
-    </section>
     <section class="note-section">
         <div class="note-section__wrapper">
-            <a href="{% url 'calendar_note' %}">Заметка</a>
+            <a href="{% url 'calendar_note' %}" class="note-section__btn">
+                <p class="note-btn__text">Управление заметкой</p>
+                <div class="note-btn__image"></div>
+            </a>
         </div>
     </section>
 {% endblock %}
