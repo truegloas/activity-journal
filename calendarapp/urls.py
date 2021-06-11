@@ -30,9 +30,9 @@ urlpatterns = [
     path('calendar/doing/<int:doing_id>/change_date', change_doing_date, name='change_doing_date'),
 
     path('calendar/doing/<int:doing_id>/note/', doing_note_view, name='doing_note'),
-    path('calendar/doing/note/<int:note_id>/edit_text/', doing_note_edit_text_view, name='doing_note_edit_text'),
-    path('calendar/doing/note/<int:note_id>/edit_image', doing_note_edit_image_view, name='doing_note_edit_image'),
-    path('calendar/doing/note/<int:note_id>/', doing_note_delete_view, name='doing_note_delete'),
+    path('calendar/doing/<int:doing_id>/note/<int:note_id>/edit_text/', doing_note_edit_text_view, name='doing_note_edit_text'),
+    path('calendar/doing/<int:doing_id>/note/<int:note_id>/edit_image', doing_note_edit_image_view, name='doing_note_edit_image'),
+    path('calendar/doing/<int:doing_id>/note/<int:note_id>/', doing_note_delete_view, name='doing_note_delete'),
 
     path('calendar/append_doing/<int:year>/<int:month>/<int:day>/', append_doing, name='append_doing'),
     path('calendar/delete_doings/<int:year>/<int:month>/<int:day>/', delete_doings, name='delete_doings'),

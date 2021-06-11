@@ -15,13 +15,13 @@
 {% endblock %}
 
 {% block url_edit_text %}
-    {% url 'doing_note_edit_text' note.pk %}
+    {% url 'doing_note_edit_text' doing_id note.pk %}
 {% endblock %}
 
 {% block url_edit_image %}
-    {% url 'doing_note_edit_image' note.pk %}
+    {% url 'doing_note_edit_image' doing_id note.pk %}
 {% endblock %}
 
-{% block url_delete_btn %}
-    <button class="section__trash" type="submit" onclick="location.href='{% url 'doing_note_delete' note.pk %}'" name="trash-btn">delete</button>
+{% block delete_btn %}
+    <button class="section__trash" type="submit" onclick="location.href='{% url 'doing_note_delete' doing_id note.pk %}'" name="trash-btn">delete</button>
 {% endblock %}

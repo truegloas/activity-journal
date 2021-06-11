@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, time
 from django.contrib import messages
 from django.contrib.auth import (
     authenticate,
@@ -188,7 +188,7 @@ def doing_view(request, doing_id):
         'day': day,
     }
 
-    return render(request, 'calendar/doing/detail.html', context)
+    return render(request, 'calendar/doing/steps_archive_day.html', context)
 
 
 def change_doing_name(request, doing_id):
@@ -220,13 +220,91 @@ def change_doing_date(request, doing_id):
         return redirect('doing', doing_id)
 
 
+def steps_list_view(request, hour, minute):
+
+    steps = RealizeStep.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
+                                       start_time=time(hour, minute))
+
+    context = {
+        'steps': steps,
+        'hour': hour,
+        'minute': minute
+    }
+
+    return render(request, "calendar/doing/steps_archive_day.html", context)
+
+
+def append_step(request, year, month, day):
+    Doing.objects.create(calendar_app=filter_by_owner(CalendarApp, request.user),
+                         step_type=DoingType.objects.create(),
+                         start_time=date(year, month, day))
+
+    return redirect("steps_day", year, month, day)
+
+
+def delete_steps(request, year, month, day):
+    Doing.objects.filter(calendar_app=filter_by_owner(CalendarApp, request.user),
+                         start_time=date(year, month, day)).delete()
+
+    return redirect("steps_day", year, month, day)
+
+
+def step_view(request, step_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    step = Doing.objects.get(pk=step_id)
+
+    year, month, day = date_formatter(
+        step.start_time.year,
+        step.start_time.month,
+        step.start_time.day
+    )
+
+    context = {
+        'step': step,
+        'year': year,
+        'month': month,
+        'day': day,
+    }
+
+    return render(request, 'calendar/doing/step/detail.html', context)
+
+
+def change_step_name(request, step_id):
+    step = Doing.objects.get(pk=step_id)
+
+    if request.POST:
+        step.name = request.POST['step_name']
+
+        step.save()
+
+        return redirect('step', step_id)
+
+    return render(request, 'stopper.html')
+
+
+def change_step_time(request, step_id):
+    step = Doing.objects.get(pk=step_id)
+
+    if request.POST:
+        try:
+            step.start_time = extract_date_from_str(request.POST['step_date'])
+            step.save()
+
+            return redirect('step', step_id)
+        except Exception:
+            messages.error(request, 'Неправильный формат даты, правильный: dd-mm-yyyy')
+            pass
+
+        return redirect('step', step_id)
+
+
 def calendar_note_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
     context = {}
-
-    note = None
 
     try:
         note = Note.objects.get(
@@ -291,24 +369,23 @@ def calendar_note_delete_view(request, note_id):
 def doing_note_view(request, doing_id):
     context = {}
 
-    note = None
-
     try:
         note = Note.objects.get(
             doing=Doing.objects.get(pk=doing_id),
         )
+        context['note'] = note
+        context['doing_id'] = doing_id
+        return render(request, 'calendar/doing/note.html', context)
     except Exception:
         Note.objects.create(
             doing=Doing.objects.get(pk=doing_id),
         )
-        pass
-
-    context['note'] = note
-
-    return render(request, 'calendar/doing/note.html', context)
+        messages.success(request, 'Заметка успешно удалена')
+        context['doing_id'] = doing_id
+        return redirect(request, 'doing', context)
 
 
-def doing_note_edit_text_view(request, note_id):
+def doing_note_edit_text_view(request, doing_id, note_id):
     context = {}
 
     note = Note.objects.get(pk=note_id)
@@ -318,13 +395,14 @@ def doing_note_edit_text_view(request, note_id):
         note.save()
 
         context['note'] = note
+        context['doing_id'] = doing_id
 
         return render(request, 'calendar/doing/note.html', context)
 
     return render(request, 'stopper.html')
 
 
-def doing_note_edit_image_view(request, note_id):
+def doing_note_edit_image_view(request, doing_id, note_id):
     context = {}
 
     note = Note.objects.get(pk=note_id)
@@ -338,20 +416,84 @@ def doing_note_edit_image_view(request, note_id):
         note.save()
 
         context['note'] = note
+        context['doing_id'] = doing_id
 
         return render(request, 'calendar/doing/note.html', context)
 
     return render(request, 'stopper.html')
 
 
-def doing_note_delete_view(request, note_id):
+def doing_note_delete_view(request, doing_id, note_id):
+    Note.objects.get(pk=note_id).delete()
+
+    messages.success(request, 'Заметка успешно удалена')
+
+    return redirect('doing', doing_id)
+
+
+def step_note_view(request, step_id):
+    context = {}
+
+    try:
+        note = Note.objects.get(
+            step=Doing.objects.get(pk=step_id),
+        )
+        context['note'] = note
+        context['step_id'] = step_id
+        return render(request, 'calendar/doing/step/note.html', context)
+    except Exception:
+        Note.objects.create(
+            step=Doing.objects.get(pk=step_id),
+        )
+        messages.success(request, 'Заметка успешно удалена')
+        context['step_id'] = step_id
+        return redirect(request, 'step', context)
+
+
+def step_note_edit_text_view(request, step_id, note_id):
     context = {}
 
     note = Note.objects.get(pk=note_id)
 
     if request.POST:
-        note.delete()
+        note.text = request.POST['note_text']
+        note.save()
 
-        return redirect(request, 'calendar/doing/note.html', context)
+        context['note'] = note
+        context['step_id'] = step_id
+
+        return render(request, 'calendar/doing/step/note.html', context)
 
     return render(request, 'stopper.html')
+
+
+def step_note_edit_image_view(request, step_id, note_id):
+    context = {}
+
+    note = Note.objects.get(pk=note_id)
+
+    if request.POST and request.FILES:
+        file = request.FILES['note_image']
+        fs = FileSystemStorage()
+        fs.save(file.name, file)
+
+        note.image = file
+        note.save()
+
+        context['note'] = note
+        context['step_id'] = step_id
+
+        return render(request, 'calendar/doing/step/note.html', context)
+
+    return render(request, 'stopper.html')
+
+
+def step_note_delete_view(request, step_id, note_id):
+    Note.objects.get(pk=note_id).delete()
+
+    messages.success(request, 'Заметка успешно удалена')
+
+    return redirect('step', step_id)
+
+
+

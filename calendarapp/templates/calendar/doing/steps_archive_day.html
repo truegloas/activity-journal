@@ -31,12 +31,14 @@
 
 {% block else-block %}
     <section class="doing-section">
-        <p class="doing__item">Шаг 1</p>
-        <p class="doing__item">hh:mm</p>
-        <p class="doing__item">hh:mm</p>
-        <p class="doing__item">Шаг 2</p>
-        <p class="doing__item">hh:mm</p>
-        <p class="doing__item">hh:mm</p>
+        {% for s in steps %}
+        {% endfor %}
+{#        <p class="doing__item">Шаг 1</p>#}
+{#        <p class="doing__item">hh:mm</p>#}
+{#        <p class="doing__item">hh:mm</p>#}
+{#        <p class="doing__item">Шаг 2</p>#}
+{#        <p class="doing__item">hh:mm</p>#}
+{#        <p class="doing__item">hh:mm</p>#}
     </section>
 {% endblock %}
 
