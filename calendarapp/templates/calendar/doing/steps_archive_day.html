@@ -36,8 +36,18 @@
                 <a href="{{ s.get_absolute_url }}" class="step__item">
                     <p>{{ s.name }}</p>
                 </a>
-                <p class="step__item">{{ s.start_time }}</p>
-                <p class="step__item">{{ s.end_time }}</p>
+                <form id="edit_step_start_time_form{{ s.pk }}" method="post" action="{% url 'change_step_start_time' doing.pk s.pk %}"
+                      class="step__start-time-form">
+                    {% csrf_token %}
+                    <input type="time" name="step_start_time{{ s.pk }}" value="{{ s.start_time.hour }}:{{ s.start_time.minute }}" class="form-control"
+                           required id="id_step_start_time" onchange="document.getElementById('edit_step_start_time_form{{ s.pk }}').submit();">
+                </form>
+                <form id="edit_step_end_time_form{{ s.pk }}" method="post" action="{% url 'change_step_end_time' doing.pk s.pk %}"
+                      class="step__end-time-form">
+                    {% csrf_token %}
+                    <input type="time" name="step_end_time{{ s.pk }}" value="{{ s.end_time.hour }}:{{ s.end_time.minute }}" class="form-control"
+                           required id="id_step_end_time" onchange="document.getElementById('edit_step_end_time_form{{ s.pk }}').submit();">
+                </form>
             </div>
         {% endfor %}
     </section>

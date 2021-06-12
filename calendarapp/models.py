@@ -1,4 +1,4 @@
-import time
+import datetime
 
 from django.db import models
 from django.urls import reverse
@@ -110,8 +110,8 @@ class Load(models.Model):
 class RealizeStep(models.Model):
     name = models.CharField(max_length=255, default="Шаг")
 
-    start_time = models.TimeField(default=time.strftime("%H:%M", time.localtime()), null=True, blank=True)
-    end_time = models.TimeField(default=time.strftime("%H:%M", time.localtime()), null=True, blank=True)
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
 
     doing = models.ForeignKey(Doing, on_delete=models.CASCADE, null=True)
     load = models.ForeignKey(Load, on_delete=models.CASCADE, null=True, blank=True)

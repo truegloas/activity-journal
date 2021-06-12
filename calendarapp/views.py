@@ -1,4 +1,4 @@
-from datetime import date, time
+import datetime
 from django.contrib import messages
 from django.contrib.auth import (
     authenticate,
@@ -223,7 +223,6 @@ def change_doing_date(request, doing_id):
 
 
 def append_step(request, doing_id):
-    print(Doing.objects.get(pk=doing_id))
     RealizeStep.objects.create(doing=Doing.objects.get(pk=doing_id),
                                load=Load.objects.create(
                                    load_measurement_type=LoadMeasurementType.objects.create()
@@ -252,7 +251,7 @@ def step_view(request, step_id):
 
 
 def change_step_name(request, step_id):
-    step = Doing.objects.get(pk=step_id)
+    step = RealizeStep.objects.get(pk=step_id)
 
     if request.POST:
         step.name = request.POST['step_name']
@@ -264,20 +263,38 @@ def change_step_name(request, step_id):
     return render(request, 'stopper.html')
 
 
-def change_step_time(request, step_id):
-    step = Doing.objects.get(pk=step_id)
+def change_step_start_time(request, doing_id, step_id):
+    step = RealizeStep.objects.get(pk=step_id)
 
     if request.POST:
         try:
-            step.start_time = extract_date_from_str(request.POST['step_date'])
-            step.save()
+            step_start_time = datetime.time.fromisoformat(request.POST['step_start_time' + str(step_id)])
 
-            return redirect('step', step_id)
-        except Exception:
-            messages.error(request, 'Неправильный формат даты, правильный: dd-mm-yyyy')
+            if step_start_time > step.end_time:
+                messages.error(request, 'Начальное время не может быть позже конечного')
+                return redirect('doing', doing_id)
+
+            step.start_time = step_start_time
+            step.save()
+        except TypeError:
+            messages.error(request, 'Неправильный формат времени')
             pass
 
-        return redirect('step', step_id)
+        return redirect('doing', doing_id)
+
+
+def change_step_end_time(request, doing_id, step_id):
+    step = RealizeStep.objects.get(pk=step_id)
+
+    if request.POST:
+        try:
+            step.end_time = datetime.time.fromisoformat(request.POST['step_end_time' + str(step_id)])
+            step.save()
+        except Exception:
+            messages.error(request, 'Неправильный формат времени')
+            pass
+
+        return redirect('doing', doing_id)
 
 
 def calendar_note_view(request):

@@ -16,7 +16,11 @@
 
 {% block additional-pre-content %}
     <div class="between">
-        <p class="between__name">{{ step.name }}</p>
+        <form id="edit_step_name_form" method="post" action="{% url 'change_step_name' step.pk %}" class="between__form-name">
+            {% csrf_token %}
+            <input type="text" name="step_name" value="{{ step.name }}" class="form-control-step"
+                   required id="id_step_name" onchange="document.getElementById('edit_step_name_form').submit();">
+        </form>
         <button type="button" class="btn-back" onclick="javascript:history.back();">Назад</button>
     </div>
 {% endblock %}
