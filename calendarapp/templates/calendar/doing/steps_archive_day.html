@@ -32,20 +32,20 @@
 {% block else-block %}
     <section class="doing-section">
         {% for s in steps %}
-            <div class="step__block">
+            <div class="step__block calendar__item profile__block">
                 <a href="{{ s.get_absolute_url }}" class="step__item">
                     <p>{{ s.name }}</p>
                 </a>
                 <form id="edit_step_start_time_form{{ s.pk }}" method="post" action="{% url 'change_step_start_time' doing.pk s.pk %}"
                       class="step__start-time-form">
                     {% csrf_token %}
-                    <input type="time" name="step_start_time{{ s.pk }}" value="{{ s.start_time.hour }}:{{ s.start_time.minute }}" class="form-control"
+                    <input type="time" name="step_start_time{{ s.pk }}" value="{{ s.start_time.hour }}:{{ s.start_time.minute }}" class="form-control-step-time"
                            required id="id_step_start_time" onchange="document.getElementById('edit_step_start_time_form{{ s.pk }}').submit();">
                 </form>
                 <form id="edit_step_end_time_form{{ s.pk }}" method="post" action="{% url 'change_step_end_time' doing.pk s.pk %}"
                       class="step__end-time-form">
                     {% csrf_token %}
-                    <input type="time" name="step_end_time{{ s.pk }}" value="{{ s.end_time.hour }}:{{ s.end_time.minute }}" class="form-control"
+                    <input type="time" name="step_end_time{{ s.pk }}" value="{{ s.end_time.hour }}:{{ s.end_time.minute }}" class="form-control-step-time"
                            required id="id_step_end_time" onchange="document.getElementById('edit_step_end_time_form{{ s.pk }}').submit();">
                 </form>
             </div>
