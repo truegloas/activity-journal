@@ -174,6 +174,7 @@ def doing_view(request, doing_id):
         return redirect('login')
 
     doing = Doing.objects.get(pk=doing_id)
+    steps = RealizeStep.objects.filter(doing=doing)
 
     year, month, day = date_formatter(
         doing.start_time.year,
@@ -186,6 +187,7 @@ def doing_view(request, doing_id):
         'year': year,
         'month': month,
         'day': day,
+        'steps': steps,
     }
 
     return render(request, 'calendar/doing/steps_archive_day.html', context)
@@ -220,52 +222,30 @@ def change_doing_date(request, doing_id):
         return redirect('doing', doing_id)
 
 
-def steps_list_view(request, hour, minute):
+def append_step(request, doing_id):
+    print(Doing.objects.get(pk=doing_id))
+    RealizeStep.objects.create(doing=Doing.objects.get(pk=doing_id),
+                               load=Load.objects.create(
+                                   load_measurement_type=LoadMeasurementType.objects.create()
+                               ))
 
-    steps = RealizeStep.objects.filter(calendar_app=CalendarApp.objects.filter(owner=request.user)[0],
-                                       start_time=time(hour, minute))
-
-    context = {
-        'steps': steps,
-        'hour': hour,
-        'minute': minute
-    }
-
-    return render(request, "calendar/doing/steps_archive_day.html", context)
+    return redirect("doing", doing_id)
 
 
-def append_step(request, year, month, day):
-    Doing.objects.create(calendar_app=filter_by_owner(CalendarApp, request.user),
-                         step_type=DoingType.objects.create(),
-                         start_time=date(year, month, day))
+def delete_steps(request, doing_id):
+    RealizeStep.objects.filter(doing=Doing.objects.get(pk=doing_id)).delete()
 
-    return redirect("steps_day", year, month, day)
-
-
-def delete_steps(request, year, month, day):
-    Doing.objects.filter(calendar_app=filter_by_owner(CalendarApp, request.user),
-                         start_time=date(year, month, day)).delete()
-
-    return redirect("steps_day", year, month, day)
+    return redirect("doing", doing_id)
 
 
 def step_view(request, step_id):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    step = Doing.objects.get(pk=step_id)
-
-    year, month, day = date_formatter(
-        step.start_time.year,
-        step.start_time.month,
-        step.start_time.day
-    )
+    step = RealizeStep.objects.get(pk=step_id)
 
     context = {
         'step': step,
-        'year': year,
-        'month': month,
-        'day': day,
     }
 
     return render(request, 'calendar/doing/step/detail.html', context)

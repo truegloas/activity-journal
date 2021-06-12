@@ -1,3 +1,5 @@
+import time
+
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import (
@@ -37,6 +39,7 @@ class Role(models.Model):
 
 class User(AbstractBaseUser):
     email = models.EmailField(db_index=True, unique=True)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True, blank=True)
 
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -92,29 +95,32 @@ class Doing(models.Model):
 
 
 class LoadMeasurementType(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='Тип нагрузки')
 
     def __str__(self):
         return self.name
 
 
 class Load(models.Model):
-    realized_load = models.DecimalField(max_digits=5, decimal_places=2)
-    target_load = models.DecimalField(max_digits=5, decimal_places=2)
+    realized_load = models.IntegerField(default=0)
+    target_load = models.IntegerField(default=0)
     load_measurement_type = models.ForeignKey(LoadMeasurementType, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class RealizeStep(models.Model):
     name = models.CharField(max_length=255, default="Шаг")
 
-    start_time = models.TimeField(null=True, blank=True)
-    end_time = models.TimeField(null=True, blank=True)
+    start_time = models.TimeField(default=time.strftime("%H:%M", time.localtime()), null=True, blank=True)
+    end_time = models.TimeField(default=time.strftime("%H:%M", time.localtime()), null=True, blank=True)
 
     doing = models.ForeignKey(Doing, on_delete=models.CASCADE, null=True)
     load = models.ForeignKey(Load, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('step', kwargs={'step_id': self.pk})
 
 
 class Note(models.Model):

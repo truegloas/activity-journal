@@ -32,20 +32,21 @@
 {% block else-block %}
     <section class="doing-section">
         {% for s in steps %}
+            <div class="step__block">
+                <a href="{{ s.get_absolute_url }}" class="step__item">
+                    <p>{{ s.name }}</p>
+                </a>
+                <p class="step__item">{{ s.start_time }}</p>
+                <p class="step__item">{{ s.end_time }}</p>
+            </div>
         {% endfor %}
-{#        <p class="doing__item">Шаг 1</p>#}
-{#        <p class="doing__item">hh:mm</p>#}
-{#        <p class="doing__item">hh:mm</p>#}
-{#        <p class="doing__item">Шаг 2</p>#}
-{#        <p class="doing__item">hh:mm</p>#}
-{#        <p class="doing__item">hh:mm</p>#}
     </section>
 {% endblock %}
 
 {% block additional-content %}
     <section class="btns-section">
-        <button class="section__plus">+</button>
-        <a href="{% url 'doing_note' doing.pk %}" class="section__note note-btn__image"></a>
-        <button class="section__trash"></button>
+        <button class="section__plus" type="submit" onclick="location.href='{% url 'append_step' doing.pk %}'" name="plus-btn">+</button>
+        <a href="" class="section__note note-btn__image"></a>
+        <button class="section__trash" type="submit" onclick="location.href='{% url 'delete_steps' doing.pk %}'" name="trash-btn"></button>
     </section>
 {% endblock %}
