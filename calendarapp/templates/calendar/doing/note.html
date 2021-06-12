@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../../../static/style.css" type="text/css">
     <link rel="stylesheet" href="../../../../static/profile/detail.css" type="text/css">
     <link rel="stylesheet" href="../../../../static/note.css" type="text/css">
+    <link rel="stylesheet" href="../../../../static/calendar/detail.css" type="text/css">
 {% endblock %}
 
 {% block note_name %}
@@ -23,5 +24,5 @@
 {% endblock %}
 
 {% block delete_btn %}
-    <button class="section__trash" type="submit" onclick="location.href='{% url 'doing_note_delete' doing_id note.pk %}'" name="trash-btn">delete</button>
+    <button class="section__trash" type="submit" onclick="location.href='{% url 'doing_note_delete' doing_id note.pk %}'" name="trash-btn"></button>
 {% endblock %}

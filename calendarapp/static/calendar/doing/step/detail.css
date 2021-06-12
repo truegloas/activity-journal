@@ -1,0 +1,23 @@
+.between {
+    padding-bottom: 2vh !important;
+}
+
+.wrapper {
+    margin: 0 !important;
+}
+
+.block__item {
+    display: flex;
+    flex-flow: row wrap;
+
+}
+
+.load__item {
+    max-width: 8vw;
+
+    overflow: scroll;
+}
+
+.btns-section {
+    justify-content: center !important;
+}

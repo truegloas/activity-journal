@@ -21,18 +21,36 @@
             <input type="text" name="step_name" value="{{ step.name }}" class="form-control-step"
                    required id="id_step_name" onchange="document.getElementById('edit_step_name_form').submit();">
         </form>
-        <button type="button" class="btn-back" onclick="javascript:history.back();">Назад</button>
+        <button type="button" class="btn-back" onclick="history.back();">Назад</button>
     </div>
 {% endblock %}
 
 {% block else-block %}
         <div class="wrapper">
             <section class="step-section">
-                <p class="step__item">dd / dd</p>
-                <p class="step__item">Тип нагрузки 1</p>
+                <div class="load__block calendar__item profile__block">
+                    <div class="block__item">
+                        <form id="id_realized_load_form" method="post" action="{% url 'change_realized_load' step.pk %}" class="load__item">
+                            {% csrf_token %}
+                            <input type="number" name="realized_load" value="{{ step.load.realized_load }}" class="form-control-realized-load"
+                                   required id="id_realized_load" onchange="document.getElementById('id_realized_load_form').submit();" maxlength="3">
+                        </form>
+                        <p class="load__item" style="margin-right: 1vw"> / </p>
+                        <form id="id_target_load_form" method="post" action="{% url 'change_target_load' step.pk %}" class="load__item">
+                            {% csrf_token %}
+                            <input type="number" name="target_load" value="{{ step.load.target_load }}" class="form-control-target-load"
+                                   required id="id_target_load" onchange="document.getElementById('id_target_load_form').submit();" maxlength="3">
+                        </form>
+                    </div>
+{#                    <p class="load__item">Тип нагрузки 1</p>#}
+                </div>
             </section>
         </div>
-        <section class="btns-section">
-            <a href="note.html" class="section__note">note</a>
-        </section>
+
+{% endblock %}
+
+{% block additional-content %}
+    <section class="btns-section">
+        <a href="{% url 'step_note' step.pk %}" class="section__note note-btn__image"></a>
+    </section>
 {% endblock %}

@@ -3,11 +3,11 @@
 {% block additional-pre-content %}
     <div class="between">
         <p class="between__name">{% block note_name %}{% endblock %}</p>
-        <button type="button" class="btn-back" onclick="javascript:history.back()">Назад</button>
+        <button type="button" class="btn-back" onclick="history.back()">Назад</button>
     </div>
 {% endblock %}
 
-{% block content %}
+{% block else-block %}
     <section class="note-section">
         <form id="text_edit_form" method="post" enctype="multipart/form-data" action="{% block url_edit_text %}{% endblock %}">
             {% csrf_token %}
@@ -23,11 +23,13 @@
 {% endblock %}
 
 {% block additional-content %}
-    <form id="image_edit_form" method="post" enctype="multipart/form-data" action="{% block url_edit_image %}{% endblock %}">
-        {% csrf_token %}
-        <input type="file" name="note_image" onchange="document.getElementById('image_edit_form').submit();" value="{{ note.image }}">
-    </form>
-    {% block delete_btn %}
-    {% endblock %}
+    <div class="btns-section">
+        <form id="image_edit_form" method="post" enctype="multipart/form-data" action="{% block url_edit_image %}{% endblock %}" class="choose_photo_form">
+            {% csrf_token %}
+            <input type="file" name="note_image" onchange="document.getElementById('image_edit_form').submit();" value="{{ note.image }}">
+        </form>
+        {% block delete_btn %}
+        {% endblock %}
+    </div>
 {% endblock %}
 

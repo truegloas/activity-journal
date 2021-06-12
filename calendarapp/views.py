@@ -296,6 +296,26 @@ def change_step_end_time(request, doing_id, step_id):
         return redirect('doing', doing_id)
 
 
+def change_realized_load(request, step_id):
+    step = RealizeStep.objects.get(pk=step_id)
+
+    if request.POST:
+        step.load.realized_load = request.POST['realized_load']
+        step.load.save()
+        pass
+    return redirect('step', step_id)
+
+
+def change_target_load(request, step_id):
+    step = RealizeStep.objects.get(pk=step_id)
+
+    if request.POST:
+        step.load.target_load = request.POST['target_load']
+        step.load.save()
+        pass
+    return redirect('step', step_id)
+
+
 def calendar_note_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -377,8 +397,8 @@ def doing_note_view(request, doing_id):
             doing=Doing.objects.get(pk=doing_id),
         )
         messages.success(request, 'Заметка успешно удалена')
-        context['doing_id'] = doing_id
-        return redirect(request, 'doing', context)
+
+        return redirect('doing', doing_id)
 
 
 def doing_note_edit_text_view(request, doing_id, note_id):
@@ -393,7 +413,7 @@ def doing_note_edit_text_view(request, doing_id, note_id):
         context['note'] = note
         context['doing_id'] = doing_id
 
-        return render(request, 'calendar/doing/note.html', context)
+        return redirect('doing_note', doing_id)
 
     return render(request, 'stopper.html')
 
@@ -414,7 +434,7 @@ def doing_note_edit_image_view(request, doing_id, note_id):
         context['note'] = note
         context['doing_id'] = doing_id
 
-        return render(request, 'calendar/doing/note.html', context)
+        return redirect('doing_note', doing_id)
 
     return render(request, 'stopper.html')
 
@@ -432,18 +452,18 @@ def step_note_view(request, step_id):
 
     try:
         note = Note.objects.get(
-            step=Doing.objects.get(pk=step_id),
+            realize_step=RealizeStep.objects.get(pk=step_id),
         )
         context['note'] = note
         context['step_id'] = step_id
         return render(request, 'calendar/doing/step/note.html', context)
     except Exception:
         Note.objects.create(
-            step=Doing.objects.get(pk=step_id),
+            realize_step=RealizeStep.objects.get(pk=step_id),
         )
-        messages.success(request, 'Заметка успешно удалена')
-        context['step_id'] = step_id
-        return redirect(request, 'step', context)
+        messages.success(request, 'Заметка успешно создана')
+
+        return redirect('step', step_id)
 
 
 def step_note_edit_text_view(request, step_id, note_id):
@@ -458,7 +478,7 @@ def step_note_edit_text_view(request, step_id, note_id):
         context['note'] = note
         context['step_id'] = step_id
 
-        return render(request, 'calendar/doing/step/note.html', context)
+        return redirect('step_note', step_id)
 
     return render(request, 'stopper.html')
 
@@ -479,7 +499,7 @@ def step_note_edit_image_view(request, step_id, note_id):
         context['note'] = note
         context['step_id'] = step_id
 
-        return render(request, 'calendar/doing/step/note.html', context)
+        return redirect('step_note', step_id)
 
     return render(request, 'stopper.html')
 
