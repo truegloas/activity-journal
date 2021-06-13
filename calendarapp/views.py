@@ -17,6 +17,7 @@ from django.core.files.storage import FileSystemStorage
 from .forms import (
     RegistrationForm,
     UserAuthenticationForm,
+    UserUpdatePassword,
 )
 
 from .models import *
@@ -106,15 +107,15 @@ def change_password_view(request):
     context = {}
 
     if request.POST:
-        form = PasswordChangeForm(user=request.user)
+        form = UserUpdatePassword(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Профиль обновлён")
         else:
-            messages.error(request, "Пожалуйста, исправьте ошибки ниже")
+            messages.error(request, "Пожалуйста, проверьте входные данные")
             context['change_password_form'] = form
     else:
-        form = PasswordChangeForm(user=request.user)
+        form = UserUpdatePassword(user=request.user)
         context['change_password_form'] = form
 
     return render(request, "profile/change_password.html", context)
