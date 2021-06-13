@@ -37,3 +37,9 @@
     height: 60px;
     background: url("../../media/interface_images/trash_can.svg") 0 0 /cover no-repeat;
 }
+
+.form-control-doing_type {
+    width: 400px !important;
+    max-width: 400px !important;
+    overflow: scroll;
+}

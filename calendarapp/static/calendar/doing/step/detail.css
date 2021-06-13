@@ -21,3 +21,9 @@
 .btns-section {
     justify-content: center !important;
 }
+
+.form-control-load_measurement_type {
+    width: 300px !important;
+    max-width: 300px !important;
+    overflow: scroll;
+}

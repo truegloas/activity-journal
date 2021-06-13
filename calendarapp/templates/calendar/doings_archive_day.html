@@ -25,7 +25,11 @@
                 <a href="{{ d.get_absolute_url }}">
                     <p>{{ d.name }}</p>
                 </a>
-                <p>{{ d.doing_type }}</p>
+                <form id="edit_doing_type_name_form" method="post" action="{% url 'change_doing_type_name' year month day d.doing_type.pk %}" class="form-doing-type-name">
+                    {% csrf_token %}
+                    <input type="text" name="doing_type_name" value="{{ d.doing_type.name }}" class="form-control-doing_type"
+                           required id="id_doing_type_name" onchange="document.getElementById('edit_doing_type_name_form').submit();">
+                </form>
             </div>
         {% endfor %}
     </section>

@@ -42,7 +42,11 @@
                                    required id="id_target_load" onchange="document.getElementById('id_target_load_form').submit();" maxlength="3">
                         </form>
                     </div>
-{#                    <p class="load__item">Тип нагрузки 1</p>#}
+                    <form id="edit_load_measurement_type_name_form" method="post" action="{% url 'change_load_measurement_type_name' step.pk step.load.load_measurement_type.pk %}" class="form-load-measurement-type-name">
+                        {% csrf_token %}
+                        <input type="text" name="load_measurement_type_name" value="{{ step.load.load_measurement_type.name }}" class="form-control-load_measurement_type"
+                               required id="id_load_measurement_type_name" onchange="document.getElementById('edit_load_measurement_type_name_form').submit();">
+                    </form>
                 </div>
             </section>
         </div>

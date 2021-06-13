@@ -221,6 +221,19 @@ def change_doing_date(request, doing_id):
         return redirect('doing', doing_id)
 
 
+def change_doing_type_name(request, year, month, day, doing_type_id):
+    doing_type = DoingType.objects.get(pk=doing_type_id)
+
+    if request.POST:
+        doing_type.name = request.POST['doing_type_name']
+
+        doing_type.save()
+
+        return redirect('doings_day', year, month, day)
+
+    return render(request, 'stopper.html')
+
+
 def append_step(request, doing_id):
     RealizeStep.objects.create(doing=Doing.objects.get(pk=doing_id),
                                load=Load.objects.create(
@@ -294,6 +307,19 @@ def change_step_end_time(request, doing_id, step_id):
             pass
 
         return redirect('doing', doing_id)
+
+
+def change_load_measurement_type_name(request, step_id, load_measurement_type_id):
+    load_measurement_type = LoadMeasurementType.objects.get(pk=load_measurement_type_id)
+
+    if request.POST:
+        load_measurement_type.name = request.POST['load_measurement_type_name']
+
+        load_measurement_type.save()
+
+        return redirect('step', step_id)
+
+    return render(request, 'stopper.html')
 
 
 def change_realized_load(request, step_id):
@@ -510,6 +536,3 @@ def step_note_delete_view(request, step_id, note_id):
     messages.success(request, 'Заметка успешно удалена')
 
     return redirect('step', step_id)
-
-
-
